@@ -1,0 +1,141 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px solid black;
+    z-index: 2;
+
+}
+
+aside {
+    background-color: #ff9999;
+    /*Color de fondo de la barra lateral */
+    position: fixed;
+    top: 85px;
+    bottom: 0;
+    padding: 1px;
+    left: 0px;
+    width: 18%;
+    text-align: center;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ff9999 transparent;
+
+}
+
+aside::-webkit-scrollbar {
+    width: 5px;
+}
+
+aside::-webkit-scrollbar-thumb {
+    background-color: #ff9999;
+}
+
+section {
+
+    border-left: 1px solid black;
+    background-color: lightgray;
+    margin-left: 18%;
+    width: 82%;
+    bottom: 0;
+    padding: 5px;
+    margin-top: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    margin: 0 auto;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding: 0 1px;
+    height: 80px;
+    width: 40%;
+}
+
+.logo-img {
+    height: 350px;
+    width: auto;
+    max-width: 80%;
+}
+
+.nav-buttons {
+    flex: 1;
+    margin: 0;
+}
+
+.search-container {
+    padding: 0 10px;
+}
+
+
+body,
+html {
+    font-family: sans-serif;
+    padding: 80px 20px 0;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-fixed-width {
+    width: auto;
+}
+
+
+.search-container button {
+    height: 40px;
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 2px;
+    background-color: #1B2B40;
+
+}
+
+.search-container input[type="search"] {
+    font-size: 17px;
+    color: #ffffff;
+    /*    background-color: #000000;*/
+    margin-top: 2px;
+    padding: 7px 80px;
+    color: #000000;
+}
+
+
+.image-container img {
+    font-size: 13px;
+    height: 45px;
+    width: auto;
+    margin-left: 10px;
+}
+
+.navbar {
+    background-color: #990000;
+    border-bottom: 1px solid black;
+}
+
+/* Estilos para los enlaces de la lista de pestañas */
+.nav-pills .nav-link {
+    font-size: 18px;
+
+    color: #ffffff;
+    background-color: #000000;
+    margin-top: 18px
+}
+
+.centered-tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    border-bottom: 1px solid black;
+    margin-top: 0%;
+
+    
+
+}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Practica01</title>
+    </head>
+    <body>
+        <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+        <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+        </section>
+        <!-- 2 Fragmento para agregar estudiante, es la ventana modal -->
+        <section th:fragment="agregarCategoria">
+            <div id="agregarCategoria" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="exampleModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content ">
+                        <div class="modal-header bg-warning text-black ">
+                            <h5 class="modal-title">[[#{estudiante.agregar}]]</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/estudiante/guardar}" th:object="${estudiante}"
+                              method="POST" class="was-validated" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.nombre}]]</label>
+                                    <input type="text" class="form-control" name="nombre" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.descripcion}]]</label>
+                                    <input type="text" class="form-control" name="descripcion" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.edad}]]</label>
+                                    <input type="text" class="form-control" name="edad" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.altura}]]</label>
+                                    <input type="text" class="form-control" name="altura" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="activo">[[#{estudiante.activo}]]</label>
+                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imagen">[[#{estudiante.imagen}]]</label>
+                                    <input class="form-control" type="text" name="ruta_imagen" onchange="mostrarImagen(this.value);" />
+                                    <img id="blah" src="#" alt="tu imagen" height="200" />
+                                </div>
+                                <script>
+                                    function mostrarImagen(urlImagen) {
+                                        var img = document.getElementById('blah');
+                                        img.src = urlImagen;
+                                    }
+                                </script>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 3 Sección principal para mostrar la informaccion de la entidad estudiante -->
+        <section th:fragment="listadoCategorias" id="estudiantes">
+            <div class="container ">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card border-dark">
+                            <div class="card-header bg-warning ">
+                                <h4 class="text-center"><i class="fa-solid fa-list"></i> [[#{estudiante.listado}]]</h4>
+
+                            </div>
+                            <div th:if="${estudiantes != null and !estudiantes.empty}">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead class="table-success">
+                                        <tr><th>#</th>
+                                            <th class="text-center">[[#{estudiante.nombre}]]</th>
+                                            <th class="text-center">[[#{estudiante.descripcion}]]</th>
+                                            <th class="text-center">[[#{estudiante.edad}]]</th>
+                                            <th class="text-center">[[#{estudiante.altura}]]</th>
+                                            <th class="text-center">[[#{estudiante.imagen}]]</th>
+                                            <th class="text-center">[[#{estudiante.activo}]]</th>
+                                            <th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="estudiante, contador : ${estudiantes}">
+                                            <td class="text-center">[[${contador.count}]]</td>
+                                            <td class="text-center">[[${estudiante.nombre}]]</td>
+                                            <td class="text-center">[[${estudiante.descripcion}]]</td>
+                                            <td class="text-center">[[${estudiante.edad}]]</td>
+                                            <td class="text-center">[[${estudiante.altura}]]</td>
+                                            <td class="text-center">
+                                                <img th:src="@{${estudiante.ruta_imagen}}" alt="Imagen" height="100"/>
+                                            </td>
+                                            <td class="text-center" th:text="${estudiante.activo} ? 'Registrado' : 'No registrado'" />   
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a th:href="@{/estudiante/eliminar/}+${estudiante.idCategoria}" class="btn btn-danger me-1">
+                                                        <i class="fas fa-trash "></i> [[#{accion.eliminar}]]
+                                                    </a>
+                                                    <a th:href="@{/estudiante/modificar/}+${estudiante.idCategoria}" class="btn btn-success">
+                                                        <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
+                                                    </a>
+                                                </div>
+                                            </td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${estudiantes == null or estudiantes.empty}">
+                                <span>[[#{lista.vacia}]]</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+                        <section th:fragment="botonesAgregar " class="py-4 mb-4 bg-light">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="fs-2">   
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-warning border-dark" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#agregarCategoria">
+                                            <i class="fa-solid fa-circle-plus"></i> [[#{estudiante.agregar}]]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="card border-dark" style="width: 18rem; text-align: center">
+                            <img src="https://www.ecured.cu/images/thumb/c/c8/Cedro.jpg/260px-Cedro.jpg" class="card-img-top" alt="..." height="200">
+                                <div class="card-body">
+                                    <h3>[[#{estudiante.total}]]</h3>
+                                    <h4 class="fs-2"><i class="fa-solid fa-tree"></i> [[${totalCategorias}]]</h4>
+                                </div>
+                        </div>
+
+                        <!--                        <div class="card text-center bg-warning text-black mb-3">
+                                                    <div class="card-body">
+                                                        <h3>[[#{estudiante.total}]]</h3>
+                                                        <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalCategorias}]]</h4>
+                                                    </div>
+                                                </div>--> 
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 4 Fragmento que se utiliza en la página modifca.html -->
+        <section th:fragment="editarCategoria">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="POST"
+                          th:action="@{/estudiante/guardar}" 
+                          th:object="${estudiante}"
+                          class="was-validated"                          
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="idCategoria" th:field="*{idCategoria}"/>
+
+                        <section th:replace="~{estudiante/fragmentos :: botonesEditar}"/>
+                        <div id=details>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>[[#{accion.actualizar}]]</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="descripcion">[[#{estudiante.nombre}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="descripcion" th:field="*{nombre}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="descripcion">[[#{estudiante.descripcion}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="descripcion" th:field="*{descripcion}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="descripcion">[[#{estudiante.edad}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="edad" th:field="*{edad}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="descripcion">[[#{estudiante.altura}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="altura" th:field="*{altura}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="activo">[[#{estudiante.activo}]]</label>
+                                                    <input class="form-check-input" 
+                                                           type="checkbox" 
+                                                           name="activo" 
+                                                           id="activo"
+                                                           th:field="*{activo}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="ruta_imagen">[[#{estudiante.imagen}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="ruta_imagen" th:field="*{ruta_imagen}"
+                                                           required="true">
+                                                        <img th:if="${not #strings.isEmpty(estudiante.ruta_imagen)}" th:src="${estudiante.ruta_imagen}" alt="Imagen"  height="200">
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </form>
+                                                            </div>
+                                                            </div>
+                                                            </section>
+                                                            <!-- 5 Fragmento que se utiliza en el fragmento anterior -->
+                                                            <section th:fragment="botonesEditar">
+                                                                <div class="container py-4 mb-4 bg-light">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 d-grid">
+                                                                            <a th:href="@{/estudiante/listado}" class="btn btn-primary">
+                                                                                <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="col-md-4 d-grid">                                
+                                                                            <a th:href="@{/estudiante/eliminar/}+${estudiante.idCategoria}"
+                                                                               class="btn btn-danger">
+                                                                                <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="col-md-4 d-grid">
+                                                                            <button type="submit" class="btn btn-success">
+                                                                                <i class="fas fa-check"></i> [[#{accion.guardar}]]
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </section>
+                                                            </body>
+                                                            </html>

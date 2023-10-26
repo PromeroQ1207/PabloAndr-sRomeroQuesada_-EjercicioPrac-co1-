@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Practica01</title>        
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: header}"/>
+
+ <div class="container" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <img> src="img/Arbol.jpg" alt="Descripción de la imagen" class="img-fluid"</img>
+                </div>
+                <div class="col-md-6 text-center">
+                    <h2 style="color: #007bff; font-size: 28px; font-weight: bold;">Desarrollo de Aplicaciones Web y Patrones
+                        Sede Heredia
+                        2023</h2>
+                    <h2 style="color: #28a745; font-size: 24px;">Gestion de Arboles</h2>
+                    <h2 style="color: #dc3545; font-size: 20px;">Prof: Melanie Benavides Blandón</h2>
+                    <p style="font-weight: bold;">Integrantes:</p>
+                    <p style="font-weight: bold;">Emmanuel Cervantes Rubí</p>
+                    <p style="font-weight: bold;">Diego Ramirez Corrales.</p>
+                    <p style="font-weight: bold;">Pablo Romero Quesada.</p>
+                    <br>
+                    <p style="font-style: italic;">La Página para el Manejo y Control de Árboles está diseñada para promover la
+                        conservación de los árboles, mejorar la
+                        calidad del aire, contribuir a la biodiversidad y crear espacios verdes sostenibles.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer th:replace="~{layout/plantilla :: footer}"/>          
+    </body>
+</html>
+
+
