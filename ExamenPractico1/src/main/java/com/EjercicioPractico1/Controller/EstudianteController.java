@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.EjercicioPractico1.Controller;
 
 import com.EjercicioPractico1.Domain.Estudiante;
@@ -21,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @Slf4j
-@RequestMapping("/estudiantes")
+@RequestMapping("/estudiante")
 public class EstudianteController {
     @Autowired
     private EstudianteService estudianteService;
@@ -29,14 +25,14 @@ public class EstudianteController {
     @GetMapping("/listado")
     public String inicio(Model model) {
         var estudiante = estudianteService.getEstudiantes(false);
-        model.addAttribute("Estudiantes", estudiante);
-        model.addAttribute("totalEstudiantes", estudiante.size());
-        return "/estudiantes/listado";
+        model.addAttribute("Estudiante", estudiante);
+        model.addAttribute("totalEstudiante", estudiante.size());
+        return "/estudiante/listado";
     }
 
     @GetMapping("/nuevo")
     public String estudianteNuevo(Estudiante estudiante) {
-        return "/estudiantes/modifica";
+        return "/estudiante/modifica";
     }
     //@Autowired
     //private FirebaseStorageServiceImpl firebaseStorageService;
@@ -45,19 +41,19 @@ public class EstudianteController {
     public String estudianteGuardar(Estudiante estudiante) {
         
         estudianteService.save(estudiante);
-        return "redirect:/estudiantes/listado";
+        return "redirect:/estudiante/listado";
     }
 
     @GetMapping("/eliminar/{id}")
     public String estudianteEliminar(Estudiante estudiante) {
         estudianteService.delete(estudiante);
-        return "redirect:/estudiantes/listado";
+        return "redirect:/estudiante/listado";
     }
 
     @GetMapping("/modificar/{id}")
     public String categoriaModificar(Estudiante estudiante, Model model) {
         estudiante = estudianteService.getEstudiante(estudiante);
         model.addAttribute("estudiante", estudiante);
-        return "/estudiantes/modifica";
+        return "/estudiante/modifica";
     }
 }
